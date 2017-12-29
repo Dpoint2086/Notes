@@ -1,0 +1,10 @@
+47 2 * * * /DATA/back.sh 1>>/DATA/back.log 2>&1
+
+New Column	New Column 2	Column 1
+server time1.aliyun.com
+server time2.aliyun.com
+server time3.aliyun.com
+server time4.aliyun.com
+server time5.aliyun.com
+server time6.aliyun.com
+server time7.aliyun.com
