@@ -91,8 +91,8 @@ hostname 修改后立即生效(新会话窗口)
 
 ### Yum Install ###
 
-	rpm -Uvh python-2.6.6-66.el6_8.x86_64.rpm python-libs-2.6.6-66.el6_8.x86_64.rpm python-iniparse-0.3.1-2.1.el6.noarch.rpm
-	rpm -Uvh yum-3.2.29-81.el6.centos.noarch.rpm yum-metadata-parser-1.1.2-16.el6.x86_64.rpm yum-plugin-fastestmirror-1.1.30-40.el6.noarch.rpm python-urlgrabber-3.9.1-11.el6.noarch.rpm
+	rpm -Uvh python-2.6.6-66.el6_8.x86_64.rpm python-libs-2.6.6-66.el6_8.x86_64.rpm python-iniparse-0.3.1-2.1.el6.noarch.rpm --nosignature --nodeps
+	rpm -Uvh yum-3.2.29-81.el6.centos.noarch.rpm yum-metadata-parser-1.1.2-16.el6.x86_64.rpm yum-plugin-fastestmirror-1.1.30-40.el6.noarch.rpm python-urlgrabber-3.9.1-11.el6.noarch.rpm --nosignature --nodeps
 
 ###替换Yum配置文件版本号###
 
