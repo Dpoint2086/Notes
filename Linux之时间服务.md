@@ -1,7 +1,15 @@
+---
+title: Linux之时间服务器配置
+date: 2017-12-26 20:32:45
+---
+
+
 服务器配置
 =====
 
-### 系统环境配置 ###
+系统环境配置
+---
+
 保存以下参数到**ntp.sh**,以root用户执行.
 > chmod +x ntp.sh
 
@@ -16,7 +24,9 @@
     echo 'ntpdate -bu 85.199.214.101' >>/etc/rc.local
     echo 'ntpdate -bu 85.199.214.100' >>/etc/rc.local
 
-### NTP服务器配置 ###
+NTP服务器配置 
+---
+
 > vim /etc/ntp.conf
 
     # NTP Network Time Protocol
@@ -28,15 +38,15 @@
     # see http://news.meinberg.de/244 for details 
     restrict default noquery nopeer nomodify notrap 
     restrict -6 default noquery nopeer nomodify notrap
- 
+     
     # allow status queries and everything else from localhost
     restrict 127.0.0.1
     restrict -6 ::1
     restrict 0.0.0.0 netmask 0.0.0.0 nomodify nopeer
- 
+     
     # if you need to allow access from a remote host, you can add lines like this:
     # restrict <IP OF REMOTE HOST>
- 
+     
     # Use drift file
     driftfile /var/lib/ntp/ntp.drift
     # your local system clock, should be used as a backup
@@ -50,7 +60,7 @@
     # one falseticker. If you only rely on internet time, it is highly recommended to add
     # additional servers here.
     # The 'iburst' keyword speeds up initial synchronization, please check the documentation for more details!
-
+    
     server	108.59.2.24	minpoll 6 maxpoll 9 iburst
     server	115.28.122.198	minpoll 6 maxpoll 9 iburst
     server	163.172.177.158	minpoll 6 maxpoll 9 iburst
@@ -64,7 +74,7 @@
     server	61.216.153.106	minpoll 6 maxpoll 9 iburst
     server	85.199.214.100	minpoll 6 maxpoll 9 iburst
     server	85.199.214.101	minpoll 6 maxpoll 9 iburst
-
+    
     # End of generated ntp.conf --- Please edit this to suite your needs
     SYNC_HWCLOCK=yes
 
@@ -87,8 +97,10 @@
     echo 'ntpdate -bu 10.121.4.71' >>/etc/rc.local
     rm -f /etc/ntp.conf
     wget -P /etc/ http://10.121.4.100/ntp.conf
-    
+
 客户端配置文件
+---
+
 > vim /etc/ntp.conf
 
     #normal node

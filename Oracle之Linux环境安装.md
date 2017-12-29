@@ -1,24 +1,34 @@
-RedHat 6版本安装Oracle 12.2
-=======================
-2017/11/15     **By Skynet**
+---
+title: Oracle之Linux（redhat）环境下安装
+date: 2017-12-26 20:32:45
+---
 
-----------
-### 系统及软件版本 ###
+# RedHat6.X安装Oracle 12.2
+
+## 本文系统环境及软件版本
+
 * Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
 * Red Hat Enterprise Linux Server release 6.5 (Santiago)
 
-**Linux发行版本查看**
-方式一
+### Linux发行版本查看
 
-    cat /etc/issue
-方式二
+* 方式一
 
-    lsb_release -a
-方式三 (仅针对redhat，Fedora)
+```bash
+cat /etc/issue
+```
+* 方式二
 
-    cat /etc/redhat-release
+```bash
+lsb_release -a
+```
+* 方式三 (仅针对redhat，Fedora)
 
-### 所用工具 ###
+```bash
+cat /etc/redhat-release
+```
+### 常用软件工具及资源
+
 * [PLSQL Developer V12 X64](http://xxx1.gd.xdowns.com/2017/PLSQLDeveloper.rar)
 * [Navicat premium ](https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&tn=87048150_dg&wd=navicat%20premium%20%E7%A0%B4%E8%A7%A3%E7%89%88&oq=Navicat%2520premium%2520v11.2.1%2526lt%253B&rsv_pq=d0da0a8d0001248c&rsv_t=6f2eeSA9d5csd2G09W%2FcFcp96f%2BjiIeXyMGbR36TWPxlvoHMEwAqcccznyeRMQHXJ0g&rqlang=cn&rsv_enter=1&inputT=1440&rsv_sug3=3&rsv_sug1=1&rsv_sug7=100&rsv_sug2=1&prefixsug=Navicat%2520premium%2520&rsp=2&rsv_sug4=1441&rsv_sug=1) 
 * [Xmanager.Enterprise.v5.1236](http://u.vip.rapidsave.org/dl6/o-5/p16171929/201758135533_268199.rar)
@@ -27,9 +37,11 @@ RedHat 6版本安装Oracle 12.2
 
 ----------
 
-## Linux基础环境配置 ##
-### 配置网卡IP地址及DNS ###
-> vi /etc/sysconfig/networ-scripts/ifcfg-eth0
+## Linux基础环境配置
+
+###  配置网卡IP地址及DNS
+
+vi /etc/sysconfig/networ-scripts/ifcfg-eth0
 
     DEVICE=eth0
     HWADDR=00:0C:29:70:48:34
@@ -43,7 +55,7 @@ RedHat 6版本安装Oracle 12.2
     GATEWAY=10.121.2.254
     DNS1=114.114.114.114
     DNS2=114.114.115.115
-    
+
 测试网络解析及连接是否正常
 > ping qq.com
 
@@ -61,7 +73,7 @@ hostname 修改后立即生效(新会话窗口)
 查询
 
 `rpm -qa|grep yum` 
- 
+
 删除
 
 `rpm -qa |grep yum |xargs rpm -e --nodeps`
@@ -109,11 +121,12 @@ hostname 修改后立即生效(新会话窗口)
 	yum makecache
 	yum install vim
 
-# Oracle R12.2 Install #
+Oracle R12.2 Install
+---
 
 ----------
 
-## Checking Hardware and Memory Configuration ##
+### Checking Hardware and Memory Configuration ##
 
 	grep SwapTotal /proc/meminfo
 	free
@@ -121,9 +134,8 @@ hostname 修改后立即生效(新会话窗口)
 	df -h /tmp
 	grep MemTotal /proc/meminfo
 
+### Oracle installer prepare
 
-Oracle installer prepare
-------------------------
 * [安装检查参考](https://docs.oracle.com/database/121/LADBI/chklist.htm#LADBI8045)
 * [**安装过程Troubleshooting**](https://docs.oracle.com/database/121/LADBI/app_ts.htm#LADBI7939)
 * [安装过程参考](https://www.cnblogs.com/kerrycode/archive/2013/09/13/3319958.html)
@@ -153,9 +165,9 @@ Oracle installer prepare
 	useradd -g oinstall -G oracle oracle
 
 > 修改命令
-> 
+>
 > `usermod -g oinstall -G oracle`
-	
+
 ### 建立文件目录并赋权 ###
 
 	mkdir -p /u01/app/oracle
@@ -179,19 +191,19 @@ Oracle installer prepare
 > vim ~oracle/.bash_profile
 
 	umask 022
-    TMP=/tmp; export TMP
-    TMPDIR=$TMP; export TMPDIR
-    ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
-    ORACLE_HOME=$ORACLE_BASE/product/12.1.0/db_1; export ORACLE_HOME
-    ORACLE_SID=ORCL; export ORACLE_SID
-    ORACLE_TERM=xterm; export ORACLE_TERM
-    PATH=/usr/sbin:$PATH; export PATH
-    PATH=$ORACLE_HOME/bin:$PATH; export PATH
-    LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
-    CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH
-
+	TMP=/tmp; export TMP
+	TMPDIR=$TMP; export TMPDIR
+	ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
+	ORACLE_HOME=$ORACLE_BASE/product/12.1.0/db_1; export ORACLE_HOME
+	ORACLE_SID=ORCL; export ORACLE_SID
+	ORACLE_TERM=xterm; export ORACLE_TERM
+	PATH=/usr/sbin:$PATH; export PATH
+	PATH=$ORACLE_HOME/bin:$PATH; export PATH
+	LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+	CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH
 
 ## 开始安装 ##
+
 **请以Oracle用户登录到SSH,不能使用SU命令进行切换**
 
 查看用户变量
@@ -202,6 +214,7 @@ Oracle installer prepare
 	env | more
 
 ## 运行安装程序 ##
+
 **请以Oracle用户运行**
 
     cd /opt/database/
@@ -218,10 +231,11 @@ Oracle installer prepare
 修复完成后再次运行检查程序,直至没有错误及警告产生.
 
 ## 结束脚本运行 ##
+
 **请以Root用户运行以下脚本**
 
 > /u01/app/oraInventory/orainstRoot.sh
-> 
+>
 > /u01/app/oracle/product/12.1.0/db_1/root.sh
 
 
@@ -229,14 +243,15 @@ Oracle installer prepare
 > Enter the full pathname of the local bin directory: [/usr/local/bin]: 
 > /usr/local/bin
 
+安装完成
+---
 
-# 安装完成 #
 安装完成后,Oracle数据库已经为启动状态,请不要再次启用.
 
 如再次启动时会出现出下错误:
 > SQLstartup
 > ORACLE instance started.
-> 
+>
 > Total System Global Area 3758096384 bytes
 > Fixed Size		8627392 bytes
 > Variable Size		  872418112 bytes
@@ -248,11 +263,11 @@ Oracle installer prepare
 
 
 * 关闭这个未完全启动的数据库
-使用oracle帐号登录SSH,执行如下命令
+  使用oracle帐号登录SSH,执行如下命令
 
     sqlplus "/as sysdba"
     shutdown immediate;
-    
+
 输出
 > SQL> shutdown immediate;
 > ORA-01507: database not mounted
@@ -262,7 +277,7 @@ Oracle installer prepare
 
 
 * 查找dbs目录,找到lkORCL文件
-这个目录随不同的安装过程,可能出现在不同的地方,有的时候在oracle账户的home目录下,有时出现在$ORACLE_HOME下
+  这个目录随不同的安装过程,可能出现在不同的地方,有的时候在oracle账户的home目录下,有时出现在$ORACLE_HOME下
 
 
     [oracle@oracle ~]$ cd $ORACLE_HOME
@@ -273,18 +288,18 @@ Oracle installer prepare
 
     fuser -u lkORCL
 执行下列命令终止进程   
- 
+
     fuser -k lkORCL
 重新启动数据库
 
     sqlplus / as sysdba
     startup;
-    
+
 查看数据库状态 *OPEN_MODE* 为 **READ WRITE**
 
 
     select open_mode from v$database;
-    
+
 ## 配置Oracle监听(直接安装时建库无需配置) ##
 
 `cd /u01/app/oracle/product/12.1.0/db_1/network/admin`
@@ -299,7 +314,7 @@ Oracle installer prepare
 
     # listener.ora Network Configuration File: /u01/app/oracle/product/12.1.0/db_1/network/admin/listener.ora
     # Generated by Oracle configuration tools.
-
+    
     LISTENER =
       (DESCRIPTION_LIST =
         (DESCRIPTION =
@@ -312,7 +327,7 @@ Oracle installer prepare
 
     # tnsnames.ora Network Configuration File: /u01/app/oracle/product/12.1.0/db_1/network/admin/tnsnames.ora
     # Generated by Oracle configuration tools.
-
+    
     LISTENER_ORCL =
       (ADDRESS = (PROTOCOL = TCP)(HOST = yghttest)(PORT = 1521))
 
@@ -330,7 +345,7 @@ Oracle installer prepare
 
     # sqlnet.ora Network Configuration File: /u01/app/oracle/product/12.1.0/db_1/network/admin/sqlnet.ora
     # Generated by Oracle configuration tools.
-
+    
     NAMES.DIRECTORY_PATH= (TNSNAMES, EZCONNECT)
 
 
@@ -346,7 +361,7 @@ Oracle installer prepare
 		 (PROGRAM=extproc)
 	  )
 	 )
-
+	
 	LISTENER =
 	 (DESCRIPTION =
 	  (ADDRESS_LIST =
@@ -363,7 +378,7 @@ Oracle installer prepare
 			(ADDRESS=(PROTOCOL=ipc)(KEY=extproc))
 	  )
 	)
-
+	
 	SID_LIST_LISTENER =
 	 (SID_LIST =
 	# (SID_DESC =
@@ -377,7 +392,7 @@ Oracle installer prepare
 				(SID_NAME=gdyght)
 	 )
 	)
-	  
+
 **重启监听**
 
 `tnslsnr reload`
@@ -398,9 +413,9 @@ Oracle installer prepare
 **Screen使用说明**
 
 >screen -S yourname -> 新建一个叫yourname的session  
-screen -ls -> 列出当前所有的session  
-screen -r yourname -> 回到yourname这个session  
-screen -d yourname -> 远程detach某个session  
-screen -d -r yourname -> 结束当前session并回到yourname这个session
+>screen -ls -> 列出当前所有的session  
+>screen -r yourname -> 回到yourname这个session  
+>screen -d yourname -> 远程detach某个session  
+>screen -d -r yourname -> 结束当前session并回到yourname这个session
 
 ----------
